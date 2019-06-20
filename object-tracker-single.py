@@ -1,3 +1,10 @@
+# =============================================================
+# Object select and tracking with Dlib and Open CV
+# Press "p" to select object? press "p" again to start tracking
+#
+#
+# =============================================================
+
 # Import the required modules
 import dlib
 import cv2
@@ -22,9 +29,9 @@ def run(source=0, dispLoc=False):
             exit()
         if(cv2.waitKey(10)==ord('p')):
             break
-        cv2.namedWindow("Image", cv2.WINDOW_NORMAL)
-        cv2.imshow("Image", img)
-    cv2.destroyWindow("Image")
+        cv2.namedWindow("Visual Tracking", cv2.WINDOW_NORMAL)
+        cv2.imshow("Visual Tracking", img)
+
 
     # Co-ordinates of objects to be tracked 
     # will be stored in a list named `points`
@@ -34,8 +41,8 @@ def run(source=0, dispLoc=False):
         print("ERROR: No object to be tracked.")
         exit()
     
-    cv2.namedWindow("Image", cv2.WINDOW_NORMAL)
-    cv2.imshow("Image", img)
+    cv2.namedWindow("Tracking", cv2.WINDOW_NORMAL)
+    cv2.imshow("Tracking", img)
 
     # Initial co-ordinates of the object to be tracked 
     # Create the tracker object
@@ -47,7 +54,7 @@ def run(source=0, dispLoc=False):
         # Read frame from device or file
         retval, img = cam.read()
         if not retval:
-            print("Cannot capture frame device | CODE TERMINATING :(")
+            print("Cannot capture | CODE TERMINATING :(")
             exit()
         # Update the tracker  
         tracker.update(img)
@@ -56,20 +63,23 @@ def run(source=0, dispLoc=False):
         rect = tracker.get_position()
         pt1 = (int(rect.left()), int(rect.top()))
         pt2 = (int(rect.right()), int(rect.bottom()))
-        cv2.rectangle(img, pt1, pt2, (255, 255, 255), 3)
-        print("Object tracked at [{}, {}] \r".format(pt1, pt2)),
+        cv2.rectangle(img, pt1, pt2, (255, 255, 255), 1)
+        print("Object coordinate [{}, {}] \r".format(pt1, pt2)),
         if dispLoc:
             loc = (int(rect.left()), int(rect.top()-20))
-            txt = "Object tracked at [{}, {}]".format(pt1, pt2)
-            cv2.putText(img, txt, loc , cv2.FONT_HERSHEY_SIMPLEX, .5, (255,255,255), 1)
-        cv2.namedWindow("Image", cv2.WINDOW_NORMAL)
-        cv2.imshow("Image", img)
+            txt = "Object tracking... [{}, {}]".format(pt1, pt2)
+            cv2.putText(img, txt, loc , cv2.FONT_HERSHEY_SIMPLEX, .4, (255,255,255), 1)
+        cv2.namedWindow("VTraking", cv2.WINDOW_NORMAL)
+        cv2.imshow("VTracking", img)
+
         # Continue until the user presses ESC key
         if cv2.waitKey(1) == 27:
             break
 
     # Relase the VideoCapture object
     cam.release()
+    cv2.destroyWindow("Visual Tracking")
+
 
 if __name__ == "__main__":
     # Parse command line arguments
