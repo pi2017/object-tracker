@@ -41,8 +41,8 @@ def run(source=0, dispLoc=False):
         print("ERROR: No object to be tracked.")
         exit()
     
-    cv2.namedWindow("Tracking", cv2.WINDOW_NORMAL)
-    cv2.imshow("Tracking", img)
+    cv2.namedWindow("Tracking...", cv2.WINDOW_NORMAL)
+    cv2.imshow("Tracking...", img)
 
     # Initial co-ordinates of the object to be tracked 
     # Create the tracker object
@@ -69,16 +69,17 @@ def run(source=0, dispLoc=False):
             loc = (int(rect.left()), int(rect.top()-20))
             txt = "Object tracking... [{}, {}]".format(pt1, pt2)
             cv2.putText(img, txt, loc , cv2.FONT_HERSHEY_SIMPLEX, .4, (255,255,255), 1)
-        cv2.namedWindow("VTraking", cv2.WINDOW_NORMAL)
-        cv2.imshow("VTracking", img)
+            cv2.namedWindow("VTraking", cv2.WINDOW_NORMAL)
+            cv2.imshow("VTracking", img)
 
         # Continue until the user presses ESC key
-        if cv2.waitKey(1) == 27:
+        if cv2.waitKey(1)==27:
             break
+
 
     # Relase the VideoCapture object
     cam.release()
-    cv2.destroyWindow("Visual Tracking")
+    cv2.destroyWindow("VTracking")
 
 
 if __name__ == "__main__":
