@@ -1,7 +1,7 @@
 # =============================================================
 # Object select and tracking with Dlib and Open CV
 # Press "p" to select object and press "p" again to start tracking
-#
+# Press "d" to exit
 #
 # =============================================================
 
