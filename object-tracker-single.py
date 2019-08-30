@@ -11,6 +11,7 @@ import cv2
 import argparse as ap
 import get_points
 
+
 def run(source=0, dispLoc=False):
     # Create the VideoCapture object
     cam = cv2.VideoCapture(source)
@@ -27,22 +28,22 @@ def run(source=0, dispLoc=False):
         if not retval:
             print("Cannot capture frame device")
             exit()
-        if(cv2.waitKey(10)==ord('p')):
+        if (cv2.waitKey(10) == ord('p')):
             break
-        cv2.namedWindow("Visual Tracking", cv2.WINDOW_NORMAL)
-        cv2.imshow("Visual Tracking", img)
+        cv2.namedWindow("Image", cv2.WINDOW_NORMAL)
+        cv2.imshow("Image", img)
+    cv2.destroyWindow("Image")
 
-
-    # Co-ordinates of objects to be tracked 
+    # Co-ordinates of objects to be tracked
     # will be stored in a list named `points`
-    points = get_points.run(img) 
+    points = get_points.run(img)
 
     if not points:
         print("ERROR: No object to be tracked.")
         exit()
-    
-    cv2.namedWindow("Visual Tracking", cv2.WINDOW_NORMAL)
-    cv2.imshow("Visual Tracking", img)
+
+    cv2.namedWindow("Image", cv2.WINDOW_NORMAL)
+    cv2.imshow("Image", img)
 
     # Initial co-ordinates of the object to be tracked 
     # Create the tracker object
@@ -63,23 +64,21 @@ def run(source=0, dispLoc=False):
         rect = tracker.get_position()
         pt1 = (int(rect.left()), int(rect.top()))
         pt2 = (int(rect.right()), int(rect.bottom()))
-        cv2.rectangle(img, pt1, pt2, (255, 255, 255), 1)
+        cv2.rectangle(img, pt1, pt2, (255, 255, 255), 3)
         print("Object coordinate [{}, {}] \r".format(pt1, pt2)),
         if dispLoc:
-            loc = (int(rect.left()), int(rect.top()-20))
+            loc = (int(rect.left()), int(rect.top() - 20))
             txt = "Object tracking... [{}, {}]".format(pt1, pt2)
-            cv2.putText(img, txt, loc , cv2.FONT_HERSHEY_SIMPLEX, .4, (255,255,255), 1)
-            cv2.namedWindow("VTracking", cv2.WINDOW_NORMAL)
-            cv2.imshow("VTracking", img)
+            cv2.putText(img, txt, loc, cv2.FONT_HERSHEY_SIMPLEX, .4, (255, 255, 255), 3)
+        cv2.namedWindow("Image", cv2.WINDOW_NORMAL)
+        cv2.imshow("Image", img)
 
         # Continue until the user presses ESC key
-        if cv2.waitKey(1)==27:
+        if cv2.waitKey(1) == 27:
             break
-
 
     # Relase the VideoCapture object
     cam.release()
-    cv2.destroyWindow("Tracking...")
 
 
 if __name__ == "__main__":

@@ -31,7 +31,7 @@ def run(im, multi=False):
             print("Object selected at [{}, {}]".format(pts_1[-1], pts_2[-1]))
         elif event == cv2.EVENT_MOUSEMOVE and run.mouse_down == True:
             im_draw = im.copy()
-            cv2.rectangle(im_draw, pts_1[-1], (x, y), (255, 255, 255), 3)
+            cv2.rectangle(im_draw, pts_1[-1], (x, y), (255, 255, 255), 2)
             cv2.imshow(window_name, im_draw)
 
     print("Press and release mouse around the object to be tracked. \n You can also select multiple objects.")
@@ -46,7 +46,7 @@ def run(im, multi=False):
         window_name_2 = "Objects to be tracked."
         for pt1, pt2 in zip(pts_1, pts_2):
             rects.append([pt1[0], pt2[0], pt1[1], pt2[1]])
-            cv2.rectangle(im_disp, pt1, pt2, (255, 255, 255), 3)
+            cv2.rectangle(im_disp, pt1, pt2, (255, 255, 255), 1)
         # Display the cropped images
         cv2.namedWindow(window_name_2, cv2.WINDOW_NORMAL)
         cv2.imshow(window_name_2, im_disp)
